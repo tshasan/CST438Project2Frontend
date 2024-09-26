@@ -23,6 +23,14 @@ Make sure you have the following installed:
 
 2. Install dependencies:
 
+   Install pnpm
+   Install docker
+
+   mac os do this
+   ```bash
+   brew install pnpm
+   ```
+
    ```bash
    pnpm install
    ```
