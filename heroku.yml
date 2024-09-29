@@ -1,0 +1,6 @@
+build:
+  docker:
+    web: frontend/Dockerfile
+
+run:
+  web: pnpm start  
