@@ -1,4 +1,4 @@
-# CST 438 Project 2 Frontend
+# CST 438 Project 2 Resources & Overview: Frontend WishList
 
 This project is built using **Next.js**, managed with **pnpm**, and containerized using **Docker**.
 
