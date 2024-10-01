@@ -1,7 +1,6 @@
 import DebugRoute from "@/components/common/debugroute";
 import SignupPage from "@/components/pages/signupPage";
 
-
 export default function Home() {
   return (
     <div>

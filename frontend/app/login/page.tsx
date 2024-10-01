@@ -1,6 +1,5 @@
 import DebugRoute from "@/components/common/debugroute";
 import LoginPage from "@/components/pages/loginpage";
-import loginpage from "@/components/pages/loginpage"
 
 export default function Home() {
   return (

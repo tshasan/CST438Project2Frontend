@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"; 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import DebugRoute from "@/components/common/debugroute";
 
 export default function ItemsPage() {
   const router = useRouter();
