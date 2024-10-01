@@ -6,11 +6,13 @@ RUN npm install -g pnpm
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile 
 
 COPY . .
 
 RUN pnpm build 
+
+RUN ls -la .next
 
 EXPOSE 3000
 
