@@ -1,7 +1,8 @@
-import DebugRoute from "@/components/debugroute";
-import LandingPage from "@/components/landingpage";
-import { Header }  from "@/components/header";
-import { Footer } from "@/components/footer"; 
+import React from 'react';
+{/* import DebugRoute from "@/components/common/debugroute"; */}
+import LandingPage from "@/components/pages/landingpage";
+import { Header }  from "@/components/common/header";
+import { Footer } from "@/components/common/footer"; 
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <Header/>
       <LandingPage />
       <Footer />
-      <DebugRoute /> {/* this is the component i made to test out routing */}
+      {/* <DebugRoute /> */}
     </div>
   );
 }

@@ -1,13 +1,8 @@
-// For Next.js 13 App Router: app/items/page.js
-// For Next.js 12 Pages Router: pages/items/index.js
+"use client"; 
 
-"use client"; // Only needed if using Next.js 13 App Router and client-side hooks
-
-import { useRouter } from "next/navigation"; // Next.js 13 App Router
-// For Next.js 12 Pages Router, use: import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import DebugRoute from "@/components/debugroute";
 
 export default function ItemsPage() {
   const router = useRouter();
