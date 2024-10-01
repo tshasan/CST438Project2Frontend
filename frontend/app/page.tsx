@@ -1,10 +1,16 @@
-import DebugRoute from "@/components/debugroute";
+import React from 'react';
+{/* import DebugRoute from "@/components/common/debugroute"; */}
+import LandingPage from "@/components/pages/landingpage";
+import { Header }  from "@/components/common/header";
+import { Footer } from "@/components/common/footer"; 
 
 export default function Home() {
   return (
     <div>
-      <h1>Landing Page</h1> {/* Placeholder to make sure routing is working */}
-      <DebugRoute />
+      <Header/>
+      <LandingPage />
+      <Footer />
+      {/* <DebugRoute /> */}
     </div>
   );
 }

@@ -1,11 +1,11 @@
 'use client';
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-// a component i made to test out routing 
-const DebugRoute = () => {
-  const router = useRouter(); // initialize next/naviations router thing
 
-  const routes = [ //hard code the routes that we have made 
+const DebugRoute = () => {
+  const router = useRouter();
+
+  const routes = [
     { name: "Landing", path: "/" },
     { name: "Login", path: "/login" },
     { name: "Profile", path: "/profile" },
@@ -14,15 +14,12 @@ const DebugRoute = () => {
   ];
 
   return (
-    <div>
-      <h1>Routing Buttons</h1>
-      <div>
-        {routes.map((route) => ( 
-          <Button key={route.path} onClick={() => router.push(route.path)}>
+    <div className="flex justify-center  bg-gray-100">
+        {routes.map((route) => (
+          <Button key={route.path} onClick={() => router.push(route.path)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
             {route.name}
           </Button>
         ))}
-      </div>
     </div>
   );
 };
