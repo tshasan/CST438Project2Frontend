@@ -1,4 +1,4 @@
-import DebugRoute from "@/components/debugroute";
+import DebugRoute from "@/components/common/debugroute";
 
 interface EditItemProp { // making a interface to give params a type of string
     params: {

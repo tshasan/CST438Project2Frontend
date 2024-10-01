@@ -1,4 +1,4 @@
-import DebugRoute from "@/components/debugroute";
+import DebugRoute from "@/components/common/debugroute";
 
 export default function Home() {
   return (
