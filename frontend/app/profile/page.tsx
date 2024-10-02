@@ -1,10 +1,13 @@
 import DebugRoute from "@/components/common/debugroute";
+import { Footer } from "@/components/common/footer";
+import { Header } from "@/components/common/header";
 
 export default function Home() {
   return (
     <div>
-      <h1>profile Page</h1> {/* Placeholder to make sure routing is working */}
+      <Header/>
       <DebugRoute />
+      <Footer/>
     </div>
   );
 }

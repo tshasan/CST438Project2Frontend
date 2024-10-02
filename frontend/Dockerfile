@@ -12,8 +12,6 @@ COPY . .
 
 RUN pnpm build 
 
-RUN ls -la .next
-
 EXPOSE 3000
 
 CMD ["pnpm", "start"]
