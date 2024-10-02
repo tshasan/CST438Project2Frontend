@@ -2,12 +2,15 @@
 
 import DebugRoute from "@/components/common/debugroute";
 import LoginPage from "@/components/pages/loginpage";
+import { Header } from "@/components/common/header";
+import { Footer } from "@/components/common/footer";
 
 export default function Home() {
   return (
     <div>
-      <header/>
+      <Header/>
       <LoginPage/>
+      <Footer/>
       <DebugRoute />
     </div>
   );
