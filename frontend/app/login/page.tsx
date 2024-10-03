@@ -1,7 +1,7 @@
 "use client";
 
 import DebugRoute from "@/components/common/debugroute";
-import LoginPage from "@/components/pages/loginpage";
+import LoginPage from "@/components/pages/loginPage";
 import { Header } from "@/components/common/header";
 import { Footer } from "@/components/common/footer";
 
