@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUsers } from '@/hooks/useUsers'; // Custom hook
+import { useUsers } from '@/hooks/useUsers';
 import {
     Table,
     TableBody,
@@ -40,12 +40,12 @@ const AdminPage: React.FC = () => {
     } = useUsers();
 
     return (
-        <div className="p-6">
-            <h1 className="mb-4 text-3xl font-bold">Admin Dashboard</h1>
+        <div className="flex flex-col items-center p-6 space-y-8">
+            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
             {/* Create New User Form */}
-            <section className="mb-8">
-                <h2 className="mb-2 text-2xl font-semibold">Create New User</h2>
+            <section className="w-full max-w-md">
+                <h2 className="text-2xl font-semibold text-center mb-4">Create New User</h2>
                 <form className="space-y-4" onSubmit={handleCreateUser}>
                     <div>
                         <Label htmlFor="new-username">Username</Label>
@@ -70,15 +70,15 @@ const AdminPage: React.FC = () => {
                             required
                         />
                     </div>
-                    <Button type="submit">Create User</Button>
+                    <Button type="submit" className="w-full">Create User</Button>
                 </form>
             </section>
 
             {/* User List */}
-            <section>
-                <h2 className="mb-2 text-2xl font-semibold">User List</h2>
+            <section className="w-full max-w-2xl">
+                <h2 className="text-2xl font-semibold text-center mb-4">User List</h2>
                 <Table>
-                    <TableCaption>A list of all users.</TableCaption>
+                    <TableCaption className="text-center">A list of all users.</TableCaption>
                     <TableHeader>
                         <TableRow>
                             <TableHead>Username</TableHead>
@@ -90,7 +90,7 @@ const AdminPage: React.FC = () => {
                             <TableRow key={user.username}>
                                 <TableCell>{user.username}</TableCell>
                                 <TableCell>
-                                    <div className="flex space-x-2">
+                                    <div className="flex justify-center space-x-2">
                                         <Button
                                             variant="secondary"
                                             onClick={() => openEditDialog(user)}
