@@ -10,7 +10,11 @@ const DebugRoute = () => {
     { name: "Login", path: "/login" },
     { name: "Signup", path: "/signup" },
     { name: "Edit Profile", path: "/editProfile" },
+
     { name: "Items", path: "/items" },
+    { name: "AdminLogin", path: "/adminlogin" },
+    { name: "Admin", path: "/admin" },
+    { name: "Signup", path: "/signup" },
   ];
 
   return (
@@ -20,7 +24,7 @@ const DebugRoute = () => {
           key={route.path}
           onClick={() => router.push(route.path)}
           className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
-        >
+
           {route.name}
         </Button>
       ))}
