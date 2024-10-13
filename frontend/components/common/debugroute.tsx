@@ -9,28 +9,25 @@ const DebugRoute = () => {
     { name: "Home", path: "/" },
     { name: "Login", path: "/login" },
     { name: "Signup", path: "/signup" },
-    { name: "Edit Profile", path: "/editProfile" },
-
     { name: "Items", path: "/items" },
+    { name: "EditProfile", path: "/editprofile" },
     { name: "AdminLogin", path: "/adminlogin" },
     { name: "Admin", path: "/admin" },
-    { name: "Signup", path: "/signup" },
   ];
 
   return (
-    <div className="flex justify-center bg-gray-100 space-x-4 py-4">
+    <div className="flex flex-wrap gap-2 justify-center bg-gray-100 p-4">
       {routes.map((route) => (
         <Button
           key={route.path}
           onClick={() => router.push(route.path)}
-          className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
-
+          className="w-full sm:w-auto bg-black text-white rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+        >
           {route.name}
         </Button>
       ))}
     </div>
   );
-  
 };
 
 export default DebugRoute;
