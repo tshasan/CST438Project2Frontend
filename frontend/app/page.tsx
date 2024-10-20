@@ -9,8 +9,8 @@ export default function Home() {
     <div>
       <Header/>
       <LandingPage />
-      <Footer />
       <DebugRoute /> 
+      <Footer />
     </div>
   );
 }

@@ -10,8 +10,8 @@ export default function Home() {
     <div>
       <Header/>
       <LoginPage/>
-      <Footer/>
       <DebugRoute />
+      <Footer/>
     </div>
   );
 }

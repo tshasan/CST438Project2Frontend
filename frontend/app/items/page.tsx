@@ -1,34 +1,18 @@
-"use client"; 
+"use client";
 
-import { useRouter } from "next/navigation"; 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import DebugRoute from "@/components/common/debugroute";
+import ItemsPage from "@/components/pages/itemspage";
+import { Header } from "@/components/common/header";
+import { Footer } from "@/components/common/footer";
 
-export default function ItemsPage() {
-  const router = useRouter();
-  const [itemId, setItemId] = useState("");
-
-  const handleEditItem = () => {
-    if (itemId.trim()) { // this removes white spaces 
-      router.push(`/items/${itemId}/edit`);
-    }
-  };
+export default function Items() {
 
   return (
     <div>
-      <h1>Items Page</h1>
-      {/* Placeholder to make sure routing is working */}
+      <Header />
+      <ItemsPage />
+      <Footer />
       <DebugRoute />
-      <div >
-        <input
-          type="text"
-          placeholder="Enter Item ID"
-          value={itemId}
-          onChange={(e) => setItemId(e.target.value)}
-        />
-        <Button onClick={handleEditItem}>Go to Edit Item</Button>
-      </div>
     </div>
   );
 }

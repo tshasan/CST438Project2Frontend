@@ -1,15 +1,14 @@
-import { Footer } from "@/components/common/footer";
-import SignupPage from "@/components/pages/signupPage";
-import { Header } from "@/components/common/header";
 import DebugRoute from "@/components/common/debugroute";
+import { Footer } from "@/components/common/footer";
+import { Header } from "@/components/common/header";
+import EditProfile from "@/components/pages/editProfile";
 
 export default function Home() {
   return (
     <div>
-      <header/>
-      <Header/>
-      <SignupPage/>
-      <DebugRoute/>
+      <Header />
+      <EditProfile />
+      <DebugRoute />
       <Footer />
     </div>
   );
