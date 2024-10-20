@@ -1,20 +1,29 @@
 "use client";
 
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { Card, CardHeader, CardDescription, CardFooter } from "@/components/ui/card";
 
+interface ItemType {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl: string;
+}
+
 interface ItemProps {
-    item: {
-        id: string;
-        name: string;
-        description: string;
-        imageUrl: string;
-    };
+    item: ItemType;
     onEdit: (id: string) => void;
 }
 
-export default function Item({ item, onEdit }: ItemProps) {
+export default function Item({ item }: ItemProps) {
+    const router = useRouter();
+
+    const handleEdit = () => {
+        router.push(`/items/${item.id}/edit`);
+    };
+
     return (
         <Card className="shadow-md">
             <CardHeader>
@@ -25,7 +34,7 @@ export default function Item({ item, onEdit }: ItemProps) {
                 <p className="text-sm text-gray-600">{item.description}</p>
             </CardDescription>
             <CardFooter>
-                <Button onClick={() => onEdit(item.id)} className="w-full">
+                <Button onClick={handleEdit} className="w-full">
                     Edit
                 </Button>
             </CardFooter>
