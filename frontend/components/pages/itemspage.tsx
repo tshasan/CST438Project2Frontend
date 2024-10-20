@@ -51,6 +51,17 @@ export default function ItemsPage() {
         }
     };
 
+    const handleDeleteItem = (id: string) => {
+        if (!activeWishlist) return;
+
+        const updatedWishlists = wishlists.map(wishlist =>
+            wishlist.id === activeWishlistId
+                ? { ...wishlist, items: wishlist.items.filter(item => item.id !== id) }
+                : wishlist
+        );
+        setWishlists(updatedWishlists);
+    };
+
     const handleCreateWishlist = () => {
         const newWishlist = {
             id: Math.random().toString(36).substring(2, 11),
@@ -141,7 +152,7 @@ export default function ItemsPage() {
                     {/* Display Items of Active Wishlist */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {activeWishlist.items.map((item) => (
-                            <Item key={item.id} item={item} onEdit={handleEditItem} />
+                            <Item key={item.id} item={item} onEdit={handleEditItem} onDelete={handleDeleteItem} />
                         ))}
                     </div>
                 </>
