@@ -15,13 +15,18 @@ interface ItemType {
 interface ItemProps {
     item: ItemType;
     onEdit: (id: string) => void;
+    onDelete: (id: string) => void;
 }
-
-export default function Item({ item }: ItemProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Item({ item, onEdit, onDelete }: ItemProps) {
     const router = useRouter();
 
     const handleEdit = () => {
         router.push(`/items/${item.id}/edit`);
+    };
+
+    const handleDelete = () => {
+        onDelete(item.id);
     };
 
     return (
@@ -33,9 +38,12 @@ export default function Item({ item }: ItemProps) {
                 <h3 className="text-xl font-bold">{item.name}</h3>
                 <p className="text-sm text-gray-600">{item.description}</p>
             </CardDescription>
-            <CardFooter>
-                <Button onClick={handleEdit} className="w-full">
+            <CardFooter className="flex justify-between">
+                <Button onClick={handleEdit} className="w-1/2 mr-2">
                     Edit
+                </Button>
+                <Button onClick={handleDelete} className="w-1/2 bg-red-500">
+                    Delete
                 </Button>
             </CardFooter>
         </Card>

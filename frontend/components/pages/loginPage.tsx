@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { signIn } from 'next-auth/react';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,18 +9,26 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
-    try {
-      // API request for login logic here...
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+    });
 
+    setLoading(false);
+
+    if (result?.error) {
+      setErrorMessage(result.error);
+    } else {
       setErrorMessage('');
-      router.push('/items'); // Redirect on successful login (example route)
-    } catch {
-      setErrorMessage('Failed to log in');
+      router.push('/items'); // Redirect on successful login
     }
   };
 
@@ -30,11 +39,11 @@ const LoginPage: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input 
-              id="email" 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="mt-2"
               required
@@ -42,22 +51,29 @@ const LoginPage: React.FC = () => {
           </div>
           <div>
             <Label htmlFor="password">Password</Label>
-            <Input 
-              id="password" 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="mt-2"
               required
             />
           </div>
           {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
-          <Button type="submit" className="w-full">Login</Button>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </Button>
         </form>
+        <Button variant="outline" className="mt-4 w-full" onClick={() => signIn('google')}>
+          Sign in with Google
+        </Button>
+        <Button variant="outline" className="mt-2 w-full" onClick={() => signIn('github')}>
+          Sign in with GitHub
+        </Button>
         <div className="mt-4 text-center">
-          <p className="text-sm text-muted-foreground"> Do not have an account? <a href="/signup" className="underline">Sign Up</a>
-          </p>
+          <p className="text-sm text-muted-foreground">Do not have an account? <a href="/signup" className="underline">Sign Up</a></p>
         </div>
       </div>
     </div>
