@@ -6,20 +6,30 @@ import { Input } from "@/components/ui/input";
 import Item from "@/components/common/item";
 import { Card, CardHeader, CardDescription, CardFooter } from "@/components/ui/card";
 
+import { createItem, createWishlist, deleteItem, updateItem } from "@/lib/api";
+import { Session } from 'inspector/promises';
+
 interface ItemType {
     id: string;
     name: string;
     description: string;
     imageUrl: string;
+    wishlistId: string;
 }
+
 
 interface WishlistType {
     id: string;
     name: string;
     items: ItemType[];
+    userId: string;
 }
 
-export default function ItemsPage() {
+interface ItemsPageProps {
+    session: Session;
+}
+
+export default function ItemsPage({ session }: ItemsPageProps) {
     const [wishlists, setWishlists] = useState<WishlistType[]>([]);
     const [activeWishlistId, setActiveWishlistId] = useState<string | null>(null);
     const [newItem, setNewItem] = useState({
@@ -31,46 +41,89 @@ export default function ItemsPage() {
 
     const activeWishlist = wishlists.find(wishlist => wishlist.id === activeWishlistId);
 
-    const handleAddItem = () => {
-        if (!activeWishlist) return;
+    const handleAddItem = async () => {
+        if (!activeWishlist || !activeWishlistId) return;
 
         const newItemWithId = { ...newItem, id: Math.random().toString(36).substring(2, 11) };
-        const updatedWishlists = wishlists.map(wishlist =>
-            wishlist.id === activeWishlistId
-                ? { ...wishlist, items: [...wishlist.items, newItemWithId] }
-                : wishlist
-        );
-        setWishlists(updatedWishlists);
-        setNewItem({ name: '', description: '', imageUrl: '' });
-    };
 
-    const handleEditItem = (id: string) => {
-        const itemToEdit = activeWishlist?.items.find(item => item.id === id);
-        if (itemToEdit) {
-            console.log("Editing item", itemToEdit); // Placeholder for edit logic
+        try {
+            // Call your API to create an item
+            await createItem(newItemWithId, { id: activeWishlistId, name: activeWishlist.name, userId: session.user.id }, session.user);
+
+            const updatedWishlists = wishlists.map(wishlist =>
+                wishlist.id === activeWishlistId
+                    ? { ...wishlist, items: [...wishlist.items, newItemWithId] }
+                    : wishlist
+            );
+            setWishlists(updatedWishlists);
+            setNewItem({ name: '', description: '', imageUrl: '' });
+        } catch (error) {
+            console.error("Failed to add item:", error);
         }
     };
 
-    const handleDeleteItem = (id: string) => {
+
+    const handleDeleteItem = async (id: string) => {
         if (!activeWishlist) return;
 
-        const updatedWishlists = wishlists.map(wishlist =>
-            wishlist.id === activeWishlistId
-                ? { ...wishlist, items: wishlist.items.filter(item => item.id !== id) }
-                : wishlist
-        );
-        setWishlists(updatedWishlists);
+        try {
+            // Call your API to delete the item
+            await deleteItem({ id, name: '', description: '', imageUrl: '', wishlistId: activeWishlistId }, activeWishlist, session.user);
+
+            const updatedWishlists = wishlists.map(wishlist =>
+                wishlist.id === activeWishlistId
+                    ? { ...wishlist, items: wishlist.items.filter(item => item.id !== id) }
+                    : wishlist
+            );
+            setWishlists(updatedWishlists);
+        } catch (error) {
+            console.error("Failed to delete item:", error);
+        }
     };
 
-    const handleCreateWishlist = () => {
+
+    const handleEditItem = async (id: string) => {
+        const itemToEdit = activeWishlist?.items.find(item => item.id === id);
+        if (itemToEdit) {
+            try {
+                // Call your API to update the item
+                await updateItem(itemToEdit, { id: activeWishlistId, name: activeWishlist.name, userId: session.user.id }, session.user);
+                console.log("Item updated");
+            } catch (error) {
+                console.error("Failed to update item:", error);
+            }
+        }
+    };
+
+    const handleDeleteWishlist = async (id: string) => {
+        // Placeholder for API call to delete a wishlist
+        try {
+            // await apiDeleteWishlist(id);
+            const updatedWishlists = wishlists.filter(wishlist => wishlist.id !== id);
+            setWishlists(updatedWishlists);
+            if (id === activeWishlistId) setActiveWishlistId(null); // Clear active wishlist if deleted
+        } catch (error) {
+            console.error("Failed to delete wishlist:", error);
+        }
+    };
+
+    const handleCreateWishlist = async () => {
         const newWishlist = {
             id: Math.random().toString(36).substring(2, 11),
             name: newWishlistName,
             items: [],
+            userId: session.user.id,
         };
-        setWishlists([...wishlists, newWishlist]);
-        setNewWishlistName('');
-        setActiveWishlistId(newWishlist.id); // Automatically switch to the new wishlist
+
+        try {
+            // Call your API to create a wishlist
+            await createWishlist(newWishlist, session.user);
+            setWishlists([...wishlists, newWishlist]);
+            setNewWishlistName('');
+            setActiveWishlistId(newWishlist.id);
+        } catch (error) {
+            console.error("Failed to create wishlist:", error);
+        }
     };
 
     const handleSwitchWishlist = (id: string) => {
@@ -81,7 +134,6 @@ export default function ItemsPage() {
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">My Wishlists</h1>
 
-            {/* Form to Create New Wishlist */}
             <Card className="mb-6 p-4">
                 <CardHeader>
                     <h2 className="text-lg font-semibold mb-4">Create New Wishlist</h2>
@@ -101,21 +153,26 @@ export default function ItemsPage() {
                 </CardFooter>
             </Card>
 
-            {/* Display and Switch Between Wishlists */}
             <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-4">Switch Wishlist</h2>
                 {wishlists.map((wishlist) => (
-                    <Button
-                        key={wishlist.id}
-                        onClick={() => handleSwitchWishlist(wishlist.id)}
-                        className={`mr-2 ${activeWishlistId === wishlist.id ? 'bg-blue-500' : 'bg-gray-200'}`}
-                    >
-                        {wishlist.name}
-                    </Button>
+                    <div key={wishlist.id} className="flex items-center space-x-2">
+                        <Button
+                            onClick={() => handleSwitchWishlist(wishlist.id)}
+                            className={`mr-2 ${activeWishlistId === wishlist.id ? 'bg-blue-500' : 'bg-gray-200'}`}
+                        >
+                            {wishlist.name}
+                        </Button>
+                        <Button
+                            onClick={() => handleDeleteWishlist(wishlist.id)}
+                            className="bg-red-500 text-white"
+                        >
+                            Delete
+                        </Button>
+                    </div>
                 ))}
             </div>
 
-            {/* Form to Add New Item to the Active Wishlist */}
             {activeWishlist && (
                 <>
                     <Card className="mb-6 p-4">
@@ -149,7 +206,6 @@ export default function ItemsPage() {
                         </CardFooter>
                     </Card>
 
-                    {/* Display Items of Active Wishlist */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {activeWishlist.items.map((item) => (
                             <Item key={item.id} item={item} onEdit={handleEditItem} onDelete={handleDeleteItem} />

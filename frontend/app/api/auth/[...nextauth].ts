@@ -5,19 +5,16 @@ import GitHubProvider from 'next-auth/providers/github';
 import type { Session, User } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 
-// Extend the User type to include 'id' and 'role'
 interface ExtendedUser extends User {
   id: string;
   role?: string;
 }
 
-// Extend the JWT type to include 'id' and 'role'
 interface ExtendedJWT extends JWT {
   id?: string;
   role?: string;
 }
 
-// Extend the Session type to include 'id' and 'role' in 'user'
 interface ExtendedSession extends Session {
   user: ExtendedUser;
 }
@@ -44,7 +41,7 @@ export default NextAuth({
           const user: ExtendedUser = await res.json();
 
           if (res.ok && user) {
-            return user;
+            return user; 
           } else {
             return null;
           }
@@ -80,7 +77,7 @@ export default NextAuth({
     async session({ session, token }) {
       if (session.user) {
         (session.user as ExtendedUser).id = token.id as string;
-        (session.user as ExtendedUser).role = (token as ExtendedJWT).role;
+        (session.user as ExtendedUser).role = token.role as string;
       }
       return session as ExtendedSession;
     },
